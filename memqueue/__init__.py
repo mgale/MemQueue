@@ -191,7 +191,7 @@ class MemQueue(object):
         if (lastclientmsg == lastmsg):
             return None
 
-        if (lastclienttime and lastclienttime < (time.time() - self._clientlag)):
+        if ( lastclienttime and lastclienttime < (time.time() - self._clientlag)):
             return self.last(mqname, clientID)
 
         msgs = self.listmsgs(mqname, self._clientlag, clientID)
@@ -205,7 +205,12 @@ class MemQueue(object):
 
 
     def _get_timecache_keys(self, mqname, tframe):
-        """ Return the view format """
+        """ Return the view format
+
+        @return: List of keys that could contain data for the queue
+        @param mqname: name of queue
+        @param tframe: Time size of queue to see in minutes
+        """
 
         keylist = []
         Q_FORMAT="%Y%m%d%H%M"
@@ -219,7 +224,12 @@ class MemQueue(object):
         return keylist
 
     def _update_cache_view(self, mqname, keyID):
-        """ Update the view of the cache """
+        """ Update the view of the cache
+
+        @return: Result of adding the key
+        @param mqname: name of queue
+        @param keyID: The keyID of the message that was added
+        """
 
         keylist = self._get_timecache_keys(mqname, 1)
         keynow = keylist.pop()
@@ -230,7 +240,7 @@ class MemQueue(object):
             if  ( not self._mc.add(keynow, append_value) ):
                 self._mc.append(keynow, append_value)
 
-        self._mc.set("%s"%(mqname),time.time())
+        return self._mc.set("%s"%(mqname),time.time())
 
     def _set_last_msg(self, mqname, keyID, clientID):
         """ Update the last message property """

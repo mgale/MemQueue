@@ -44,6 +44,13 @@ class MemQueueTest(unittest.TestCase):
         self.assertEquals(99, len(msglist))
 
     def test_next_msg1(self):
+        """ Get the next message after 49
+
+        We got or left off at msg 49 so we should get
+        msg 50, even though we did not consume the previous
+        48 messages
+
+        """
         msgid=""
         for i in range(1,50):
             msgid = self.mq.put("testQ4", i)
@@ -55,6 +62,11 @@ class MemQueueTest(unittest.TestCase):
         self.assertEquals(50, self.mq.nextmsg("testQ4"))
 
     def test_next_msg2(self):
+        """ Get the next message after 49
+
+        We should get msg 50, we have consumed the previous 49.
+
+        """
         msgid=""
         for i in range(1,50):
             msgid = self.mq.put("testQ5", i)
@@ -66,6 +78,12 @@ class MemQueueTest(unittest.TestCase):
         self.assertEquals(50, self.mq.nextmsg("testQ5"))
 
     def test_next_msg3(self):
+        """ Get the next message, which is the last message.
+
+        We should get the oldest message in the queue relative to
+        clientlag. If we client has never gotten a message and calls
+        nextmsg, we will return the oldest allowed message.
+        """
         msgid=""
         for i in range(1,50):
             msgid = self.mq.put("testQ6", i)
