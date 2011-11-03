@@ -1,1 +1,1 @@
-python -m unittest discover -s memqueue/test/
+python -m unittest discover -s tests/
