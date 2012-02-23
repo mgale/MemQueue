@@ -61,7 +61,7 @@ class MemQueue(object):
     def purge_queue(self, mqname, tframe=30, clientID=DEFAULT_CLIENTID):
         """ Delete a queue
 
-        @param mqname: Name of queue to create
+        @param mqname: Name of queue to purge
         @param tframe: The time frame to purge the queue for.
         @param clientID: Unique ID of client
         """
