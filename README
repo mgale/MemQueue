@@ -13,3 +13,10 @@ To install:
 
     python setup.py build
     sudo python setup.py install
+
+
+Testing
+============
+To test:
+
+    python setup.py test
